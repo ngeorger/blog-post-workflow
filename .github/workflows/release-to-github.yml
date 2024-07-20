@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows: ["Version bump"]
-    branches: [master]
+    branches: [main]
     types:
       - completed
 jobs:
@@ -18,7 +18,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: ${{ env.pkg_version }}
           release_name: ${{ env.pkg_version }}
@@ -28,7 +28,7 @@ jobs:
           prerelease: false
       - name: Update v1 release with the latest code
         run: |
-          git config user.name gkr-bot
-          git config user.email gkr@tuta.io
+          git config user.name "ngeorger bot"
+          git config user.email "info@sredevops.org"
           git tag -fa v1 -m "Updated v1 tag with the latest code"
           git push origin v1 --force
